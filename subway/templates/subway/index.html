@@ -1,0 +1,232 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        tr:hover {
+            background-color: #D6EEEE;
+        }
+
+        tr {
+            text-align: left;
+        }
+
+        input {
+            text-align: center;
+        }
+
+        div {
+            border: 3px solid green;
+            text-align: center;
+        }
+
+        #roule {
+            border: 3px dashed olivedrab;
+        }
+
+        #button{
+            border: none;
+        }
+
+    </style>
+</head>
+
+
+<form method="post" action="/subway">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <th>Montants ajustés</th>
+            <th><input type="number" name="vendre_adjuste" step="any" min="0" {% if vendre_adjuste %}
+                       value="{{ vendre_adjuste }}" {% else %}  {% endif %}></th>
+        </tr>
+        <tr>
+            <th>Ventes par cartes</th>
+            <th><input type="number" name="vendre_par_cartes" step="any" min="0" {% if vendre_par_cartes %}
+                       value="{{ vendre_par_cartes }}" {% else %}  {% endif %}></th>
+        </tr>
+        <tr>
+            <th>Déboursés</th>
+            <th><input type="number" name="debourse" step="any" min="0" {% if debourse %}
+                       value="{{ debourse }}" {% else %}
+                       value="0" {% endif %}></th>
+        </tr>
+        <tr>
+            <th>Dépôts</th>
+            <th><input type="number" name="depot" step="any" min="0" {% if depot %}
+                       value="{{ depot }}" {% else %}  {% endif %}>
+            </th>
+        </tr>
+        <tr>
+            <th>Dépôt à faire</th>
+            <th>
+                <div>
+                    {% if depot_a_faire %}
+                        {{ depot_a_faire }}
+                    {% else %}
+                    {% endif %}
+                </div>
+            </th>
+        </tr>
+    </table>
+    <br>
+    <table>
+        <tr>
+            <th><input type="number" name="d005" min="0" {% if d005 %} value="{{ d005 }}" {% else %}  {% endif %}></th>
+            <th>x 0.05 =</th>
+            <th>
+                <div>
+                    {{ res_d005 }}
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th><input type="number" name="d01" min="0" {% if d01 %} value="{{ d01 }}" {% else %}  {% endif %}></th>
+            <th>x 0.1 =</th>
+            <th>
+                <div>
+                    {{ res_d01 }}
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th><input type="number" name="d025" min="0" {% if d025 %} value="{{ d025 }}" {% else %}  {% endif %}></th>
+            <th>x 0.25 =</th>
+            <th>
+                <div>
+                    {{ res_d025 }}
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th><input type="number" name="d1" min="0" {% if d1 %} value="{{ d1 }}" {% else %}  {% endif %}></th>
+            <th>x 1 =</th>
+            <th>
+                <div>{{ res_d1 }}</div>
+            </th>
+        </tr>
+        <tr>
+            <th><input type="number" name="d2" min="0" {% if d2 %} value="{{ d2 }}" {% else %}  {% endif %}></th>
+            <th>x 2 =</th>
+            <th>
+                <div>{{ res_d2 }}</div>
+            </th>
+        </tr>
+        <tr>
+            <th><input type="number" name="d5" min="0" {% if d5 %} value="{{ d5 }}" {% else %}  {% endif %}></th>
+            <th>x 5 =</th>
+            <th>
+                <div>{{ res_d5 }}</div>
+            </th>
+        </tr>
+        <tr>
+            <th><input type="number" name="d10" min="0" {% if d10 %} value="{{ d10 }}" {% else %}  {% endif %}></th>
+            <th>x 10 =</th>
+            <th>
+                <div>{{ res_d10 }}</div>
+            </th>
+        </tr>
+        <tr>
+            <th><input type="number" name="d20" min="0" {% if d20 %} value="{{ d20 }}" {% else %}  {% endif %}></th>
+            <th>x 20 =</th>
+            <th>
+                <div>{{ res_d20 }}</div>
+            </th>
+        </tr>
+        <tr>
+            <th><input type="number" name="d50" min="0" {% if d50 %} value="{{ d50 }}" {% else %} value="0" {% endif %}>
+            </th>
+            <th>x 50 =</th>
+            <th>
+                <div>{{ res_d50 }}</div>
+            </th>
+        </tr>
+        <tr>
+            <th><input type="number" name="d100" min="0" {% if d100 %} value="{{ d100 }}" {% else %}
+                       value="0" {% endif %}></th>
+            <th>x 100 =</th>
+            <th>
+                <div>{{ res_d100 }}</div>
+            </th>
+        </tr>
+        <tr>
+            <th>Total</th>
+            <th colspan="2">
+                <div>
+                    {{ total }}
+                </div>
+            </th>
+        </tr>
+        <tr>
+            {% if over %}
+                <th>Over</th>
+                <th colspan="2">
+                    <div>{{ over }}</div>
+                </th>
+            {% elif short %}
+                <th>Short</th>
+                <th colspan="2">
+                    <div>{{ short }}</div>
+                </th>
+            {% elif over_short %}
+                <th>Over/Short</th>
+                <th>
+                    <div>{{ over_short }}</div>
+                </th>
+            {% endif %}
+        </tr>
+    </table>
+
+    <br>
+    <div id="button">
+        <button type="submit">Soumettre / Submit</button>
+    </div>
+</form>
+
+<div id="roule">
+    <table>
+        <tr>
+            <th>5¢</th>
+            <th>x</th>
+            <th>40</th>
+            <th>=</th>
+            <th>2$</th>
+        </tr>
+        <tr>
+            <th>10¢</th>
+            <th>x</th>
+            <th>50</th>
+            <th>=</th>
+            <th>5$</th>
+        </tr>
+        <tr>
+            <th>25¢</th>
+            <th>x</th>
+            <th>40</th>
+            <th>=</th>
+            <th>10$</th>
+        </tr>
+        <tr>
+            <th>1$</th>
+            <th>x</th>
+            <th>25</th>
+            <th>=</th>
+            <th>25$</th>
+        </tr>
+        <tr>
+            <th>2$</th>
+            <th>x</th>
+            <th>25</th>
+            <th>=</th>
+            <th>50$</th>
+        </tr>
+    </table>
+</div>
+
+
+
+
