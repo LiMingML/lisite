@@ -53,7 +53,7 @@
             <th>Déboursés</th>
             <th><input type="number" name="debourse" step="any" min="0" {% if debourse %}
                        value="{{ debourse }}" {% else %}
-                       value="0" {% endif %}></th>
+                        {% endif %}></th>
         </tr>
         <tr>
             <th>Dépôts</th>
@@ -138,7 +138,7 @@
             </th>
         </tr>
         <tr>
-            <th><input type="number" name="d50" min="0" {% if d50 %} value="{{ d50 }}" {% else %} value="0" {% endif %}>
+            <th><input type="number" name="d50" min="0" {% if d50 %} value="{{ d50 }}" {% else %}  {% endif %}>
             </th>
             <th>x 50 =</th>
             <th>
@@ -147,7 +147,7 @@
         </tr>
         <tr>
             <th><input type="number" name="d100" min="0" {% if d100 %} value="{{ d100 }}" {% else %}
-                       value="0" {% endif %}></th>
+                        {% endif %}></th>
             <th>x 100 =</th>
             <th>
                 <div>{{ res_d100 }}</div>

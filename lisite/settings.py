@@ -31,7 +31,8 @@ ALLOWED_HOSTS = [
     "www.mingmingli.site",
     "8.222.129.197",
     "localhost",
-    "0.0.0.0"
+    "0.0.0.0",
+    "127.0.0.1",
 ]
 
 # Application definition
